@@ -1,0 +1,36 @@
+package avod.protos;
+
+import "avod/protos/mini_batch.proto";
+
+message KittiUtilsConfig {
+    // 3D area extents [min_x, max_x, min_y, max_y, min_z, max_z]
+    repeated float area_extents = 1;
+
+    // Voxel grid size (for 2D and 3D)
+    required float voxel_size = 2;
+
+    // Anchor strides
+    repeated float anchor_strides = 3;
+
+    // Anchor filtering density threshold
+    optional int32 density_threshold = 4 [default = 1];
+
+    required BevGenerator bev_generator = 20;
+
+    required MiniBatchConfig mini_batch_config = 21;
+}
+
+message BevGenerator {
+    oneof bev_maps_type {
+        Slices slices = 1;
+    }
+
+    message Slices {
+        // Min and max height
+        required float height_lo = 1;
+        required float height_hi = 2;
+
+        // Number of slices to create
+        required int32 num_slices = 3;
+    }
+}

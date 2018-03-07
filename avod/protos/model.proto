@@ -1,0 +1,112 @@
+package avod.protos;
+
+import "avod/protos/layers.proto";
+
+// Message for configuring the DetectionModel.
+message ModelConfig {
+
+    // Model name used to run either RPN or AVOD
+    optional string model_name = 1 [default = 'avod_model'];
+
+    // Checkpoint name
+    optional string checkpoint_name = 2 [default = 'detection_model'];
+
+    optional PathsConfig paths_config = 3;
+    required InputConfig input_config = 4;
+    required RpnConfig rpn_config = 5;
+    required AvodConfig avod_config = 6;
+
+    // Label smoothing epsilon
+    required float label_smoothing_epsilon = 7;
+
+    // Expand proposals lengths along x and z for larger context region (in m)
+    // (0.0 - 1.0 recommended)
+    required float expand_proposals_xz = 8;
+
+    // Global path drop (p_keep_img, p_keep_bev)
+    // To disable path drop, set both to 1.0
+    repeated float path_drop_probabilities = 9;
+
+    // To keep all the samples including the ones without anchor-info
+    // i.e. labels during training
+    required bool train_on_all_samples = 10;
+
+    // To keep all the samples including the ones without anchor-info
+    // i.e. labels during validation
+    required bool eval_all_samples = 11;
+
+    // Layer configurations
+    required LayersConfig layers_config = 12;
+
+    // Loss configurations
+    required LossConfig loss_config = 13;
+}
+
+message PathsConfig {
+    // Checkpoint dir
+    optional string checkpoint_dir = 1;
+
+    // Log dir (no underscore to match tensorboard)
+    optional string logdir = 2;
+
+    // Directory to save predictions
+    optional string pred_dir = 3;
+}
+
+message InputConfig {
+    // Bev dimensions
+    optional int32 bev_dims_h = 1 [default = 700];
+    optional int32 bev_dims_w = 2 [default = 800];
+    optional int32 bev_depth = 3 [default = 6];
+
+    // Image dimensions
+    optional int32 img_dims_h = 4 [default = 480];
+    optional int32 img_dims_w = 5 [default = 1590];
+    optional int32 img_depth = 6 [default = 3];
+}
+
+message RpnConfig {
+    // RPN proposal ROI crop size
+    required int32 rpn_proposal_roi_crop_size = 1;
+
+    // RPN proposal ROI fusion method, one of ['mean', 'concat']
+    required string rpn_fusion_method = 2;
+
+    // RPN Non-max suppression boxes during training
+    required int32 rpn_train_nms_size = 3;
+
+    // RPN Non-max suppression boxes during testing
+    required int32 rpn_test_nms_size = 4;
+
+    // RPN NMS IoU threshold
+    required float rpn_nms_iou_thresh = 5;
+}
+
+message AvodConfig {
+    // AVOD Proposal ROI crop size
+    required int32 avod_proposal_roi_crop_size = 1;
+
+    // Positive selection, one of ['corr_cls', 'not_bkg']
+    required string avod_positive_selection = 3;
+
+    // AVOD Non-max suppression boxes
+    required int32 avod_nms_size = 4;
+
+    // AVOD NMS IoU threshold
+    required float avod_nms_iou_thresh = 5;
+
+    // AVOD bounding box representation, one of ['box_3d', 'box_8c']
+    required string avod_box_representation = 6;
+}
+
+message LossConfig {
+    // RPN/AVOD Regression loss weight
+    required float reg_loss_weight = 1;
+
+    // AVOD angle vector loss weight
+    required float ang_loss_weight = 2;
+
+    // RPN/AVOD Classification loss weight
+    required float cls_loss_weight = 3;
+}
+

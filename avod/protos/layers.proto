@@ -1,0 +1,116 @@
+package avod.protos;
+
+// Message for configuring Model Layer params.
+message LayersConfig {
+
+    required FeatureExtractor bev_feature_extractor = 1;
+    required FeatureExtractor img_feature_extractor = 2;
+
+    required RPNLayersConfig rpn_config = 3;
+    required AVODLayersConfig avod_config = 4;
+}
+
+message FeatureExtractor {
+    oneof feature_extractor {
+
+        VGGLayersConfig bev_vgg = 1;
+        VGGLayersConfig img_vgg = 2;
+
+        PyramidLayersConfig img_vgg_pyr = 3;
+        PyramidLayersConfig bev_vgg_pyr = 4;
+    }
+}
+
+message VGGLayersConfig {
+    // Conv layer 1 [repeat, num filter]
+    repeated int32 vgg_conv1 = 1;
+
+    // Conv layer 2 [repeat, num filter]
+    repeated int32 vgg_conv2 = 2;
+
+    // Conv layer 3 [repeat, num filter]
+    repeated int32 vgg_conv3 = 3;
+
+    // Conv layer 4 [repeat, num filter]
+    repeated int32 vgg_conv4 = 4;
+
+    // Upsampling multiplier
+    required int32 upsampling_multiplier = 5;
+
+    // L2 norm weight decay
+    optional float l2_weight_decay = 6 [default = 0.0005];
+}
+
+message PyramidLayersConfig {
+    // Conv layer 1 [repeat, num filter]
+    repeated int32 vgg_conv1 = 1;
+
+    // Conv layer 2 [repeat, num filter]
+    repeated int32 vgg_conv2 = 2;
+
+    // Conv layer 3 [repeat, num filter]
+    repeated int32 vgg_conv3 = 3;
+
+    // Conv layer 4 [repeat, num filter]
+    repeated int32 vgg_conv4 = 4;
+
+    // L2 norm weight decay
+    optional float l2_weight_decay = 6 [default = 0.0005];
+}
+
+message RPNLayersConfig {
+    // Anchor predictor layer configs
+    // classification fc layer size
+    required int32 cls_fc6 = 1;
+    required int32 cls_fc7 = 2;
+
+    // Regression fc layer size
+    required int32 reg_fc6 = 3;
+    required int32 reg_fc7 = 4;
+
+    // L2 weight decay
+    required float l2_weight_decay = 6;
+
+    // Dropout probability - the probabilit that a neuron's
+    // output is kept during dropout
+    optional float keep_prob = 5 [default = 0.5];
+}
+
+message AVODLayersConfig{
+    oneof fc_layers {
+        BasicFcLayers basic_fc_layers = 1;
+        FusionFcLayers fusion_fc_layers = 2;
+    }
+}
+
+message BasicFcLayers {
+    required int32 num_layers = 1;
+    repeated int32 layer_sizes = 2;
+
+    // L2 weight decay
+    required float l2_weight_decay = 3;
+
+    // Dropout keep probability
+    required float keep_prob = 4;
+
+    // Fusion method ('mean', 'concat')
+    required string fusion_method = 5;
+}
+
+message FusionFcLayers {
+
+    required int32 num_layers = 1;
+    repeated int32 layer_sizes = 2;
+
+    // L2 weight decay
+    required float l2_weight_decay = 3;
+
+    // Dropout keep probability
+    required float keep_prob = 4;
+
+    // Fusion method ('mean', 'concat')
+    required string fusion_method = 5;
+
+    // Fusion type (early, late, deep)
+    required string fusion_type = 6;
+}

@@ -1,0 +1,23 @@
+package avod.protos;
+
+import "avod/protos/model.proto";
+import "avod/protos/train.proto";
+import "avod/protos/eval.proto";
+import "avod/protos/kitti_dataset.proto";
+
+// Convenience message for configuring a training and eval pipeline.
+// Allows all of the pipeline parameters to be configured from one file.
+message NetworkPipelineConfig {
+
+	// Detection Model config
+	optional ModelConfig model_config = 1;
+
+	// Training config
+	optional TrainConfig train_config = 2;
+
+	// Evaluation config
+	optional EvalConfig eval_config = 3;
+
+	// KittiDataset configuration
+	optional KittiDatasetConfig dataset_config = 4;
+}

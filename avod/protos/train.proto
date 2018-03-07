@@ -1,0 +1,31 @@
+syntax = "proto2";
+
+package avod.protos;
+import "avod/protos/optimizer.proto";
+
+// Message for configuring DetectionModel training jobs (train.py).
+message TrainConfig {
+
+    // Input queue batch size.
+    optional uint32 batch_size = 1 [default = 1];
+
+    // Max training iteration
+    required uint32 max_iterations = 2 [default = 500];
+
+    // Optimizer used to train the DetectionModel.
+    optional Optimizer optimizer = 3;
+
+    // Checkpoint options
+    optional uint32 checkpoint_interval = 4 [default = 50];
+    optional uint32 max_checkpoints_to_keep = 5 [default = 10];
+    optional bool overwrite_checkpoints = 6 [default = false];
+
+    // Summary options
+    required uint32 summary_interval = 7 [default = 10];
+    required bool summary_histograms = 8;
+    required bool summary_img_images = 9;
+    required bool summary_bev_images = 10;
+
+    // GPU options
+    optional bool allow_gpu_mem_growth = 11 [default = false];
+}
