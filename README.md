@@ -147,7 +147,7 @@ data
 ```
 
 ### Training Configuration
-There are sample configuration files for training inside `avod/configs`. You can train on the example configs, or modify an existing configuration. To train a new configuration, copy a config, e.g. `avod_cars_example.config`, rename this file to a unique experiment name and make sure the file name matches the `checkpoint_name: 'avod_cars_example'` entry inside your config.
+There are sample configuration files for training inside `avod/configs`. You can train on the example configs, or modify an existing configuration. To train a new configuration, copy a config, e.g. `pyramid_cars_with_aug_example.config`, rename this file to a unique experiment name and make sure the file name matches the `checkpoint_name: 'pyramid_cars_with_aug_example'` entry inside your config.
 
 ### Run Trainer
 To start training, run the following:
@@ -174,11 +174,11 @@ The evaluator has two main modes, you can either evaluate a single checkpoint, a
 
 To view the TensorBoard summaries:
 ```bash
-cd avod/data/outputs/avod_cars_example
+cd avod/data/outputs/pyramid_cars_with_aug_example
 tensorboard --logdir logs
 ```
 
-Note: In addition to evaluating the loss, calculating accuracies, etc, the evaluator also runs the KITTI native evaluation code on each checkpoint. Predictions are converted to KITTI format and the AP is calculated for every checkpoint. The results are saved inside `scripts/offline_eval/results/avod_cars_example_results_0.1.txt` where `0.1` is the score threshold. IoUs are set to (0.7, 0.5, 0.5) 
+Note: In addition to evaluating the loss, calculating accuracies, etc, the evaluator also runs the KITTI native evaluation code on each checkpoint. Predictions are converted to KITTI format and the AP is calculated for every checkpoint. The results are saved inside `scripts/offline_eval/results/pyramid_cars_with_aug_example_results_0.1.txt` where `0.1` is the score threshold. IoUs are set to (0.7, 0.5, 0.5) 
 
 ### Run Inference
 To run inference on the `val` split, run the following script:
