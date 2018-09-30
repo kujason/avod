@@ -222,7 +222,7 @@ class RpnModel(model.DetectionModel):
                 self._img_anchors_norm_pl = self._add_placeholder(
                     tf.float32, [None, 4], self.PL_IMG_ANCHORS_NORM)
 
-            with tf.variable_scope('saample_info'):
+            with tf.variable_scope('sample_info'):
                 # the calib matrix shape is (3 x 4)
                 self._add_placeholder(
                     tf.float32, [3, 4], self.PL_CALIB_P2)
