@@ -7,4 +7,5 @@ def root_dir():
 
 def top_dir():
     avod_root_dir = root_dir()
-    return os.path.split(avod_root_dir)[0]
+    #return os.path.split(avod_root_dir)[0]
+    return os.path.dirname(avod_root_dir)
