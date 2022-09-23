@@ -3,6 +3,6 @@ numpy>=1.13.0
 opencv-python
 pandas
 pillow
-protobuf==3.2.0
+protobuf==3.18.3
 scipy
 sklearn
